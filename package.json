@@ -1,0 +1,12 @@
+{
+	"name": "ips4-deploy",
+	"version": "1.0.0",
+	"description": "Deploy an IPS4 app through command line",
+	"main": "index.js",
+	"author": "freezy <freezy@vpdb.io>",
+	"license": "GPL-2.0",
+	"dependencies": {
+		"puppeteer": "^1.1.0",
+		"yargs": "^11.0.0"
+	}
+}

@@ -1,0 +1,45 @@
+#!/bin/bash
+
+TARGET=/var/www/ips/applications/myapp
+
+repo_get_branch() {
+        if (( $# == 1 )); then
+                # if first argument is set, use it as branch name
+                branch=$1
+        else
+                # determine the branch that was pushed
+                if ! [ -t 0 ]; then
+                  read -a ref
+                fi
+                IFS='/' read -ra REF <<< "${ref[2]}"
+                branch="${REF[2]}"
+
+                # if executed manually and no argument is provided, fall back to master.
+                if [ -z "$branch" ]; then
+                        branch="master"
+                fi
+        fi
+        echo ${branch}
+}
+
+if [ -d "$TARGET" ]; then
+        cd $TARGET
+        BRANCH=`repo_get_branch $1`
+        unset GIT_DIR
+        echo Updating VPDB app from $BRANCH...
+        git reset --hard origin/$BRANCH
+        ACTION=upgrade
+else
+        echo Cloning VPDB app into IPS folder...
+        git clone /vpdb/ips4-application.git $TARGET
+        ACTION=install
+fi
+
+echo Updating file permissions...
+find $TARGET -type d -exec chmod 777 {} \;
+find $TARGET -type f -exec chmod 666 {} \;
+find $TARGET -iname "*.php" -path "**/interface/**" -exec chmod 644 {} \;
+
+echo Deploying app...
+cd /repos/ips-deploy
+node index.js --url=https://yourforum.com --username=admin --password=xxx --app=myapp --action=$ACTION
