@@ -26,12 +26,12 @@ if [ -d "$TARGET" ]; then
         cd $TARGET
         BRANCH=`repo_get_branch $1`
         unset GIT_DIR
-        echo Updating VPDB app from $BRANCH...
+        echo Updating app from $BRANCH...
         git reset --hard origin/$BRANCH
         ACTION=upgrade
 else
-        echo Cloning VPDB app into IPS folder...
-        git clone /vpdb/ips4-application.git $TARGET
+        echo Cloning app into IPS folder...
+        git clone /path/to/your/app-repo.git $TARGET
         ACTION=install
 fi
 
@@ -41,5 +41,5 @@ find $TARGET -type f -exec chmod 666 {} \;
 find $TARGET -iname "*.php" -path "**/interface/**" -exec chmod 644 {} \;
 
 echo Deploying app...
-cd /repos/ips-deploy
+cd /path/to/this-repo
 node index.js --url=https://yourforum.com --username=admin --password=xxx --app=myapp --action=$ACTION

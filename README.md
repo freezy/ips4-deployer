@@ -28,7 +28,7 @@ Note that this doesn't actually copy the the app to the IPS application folder,
 it assumes that has already been done. This makes it possible to deploy any app
 without shell access on the actual server.
 
-An example for a git hook can be found [here](/freezy/ips4-deployer/blob/master/post-receive).
+An example for a git hook can be found [here](https://github.com/freezy/ips4-deployer/blob/master/post-receive).
 
 ## License
 
