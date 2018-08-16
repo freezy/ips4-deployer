@@ -33,11 +33,23 @@ const argv = require('yargs')
 		console.log('Opening page at %s...', adminUrl);
 		await page.goto(adminUrl, { waitUntil: 'load' });
 
+		// check version
+		let ipsVersion;
+		if (await page.$('#elInput_auth') !== null) {
+			ipsVersion = '42';
+		}
+		if (await page.$('#auth') !== null) {
+			ipsVersion = '43';
+		}
+		if (!ipsVersion) {
+			throw new Error('Could not find login form, probably due to an unsupported IPS version.');
+		}
+
 		// enter login details
 		console.log('Logging in as %s...', argv.username);
-		await page.click('#elInput_auth');
+		await page.click(ipsVersion === '42' ? '#elInput_auth' : '#auth');
 		await page.keyboard.type(argv.username);
-		await page.click('#elInput_password');
+		await page.click(ipsVersion === '42' ? '#elInput_password' : '#password');
 		await page.keyboard.type(argv.password);
 
 		// login
