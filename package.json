@@ -6,7 +6,7 @@
 	"author": "freezy <freezy@vpdb.io>",
 	"license": "GPL-2.0",
 	"dependencies": {
-		"puppeteer": "^1.1.0",
+		"puppeteer": "^1.20.0",
 		"yargs": "^11.0.0"
 	}
 }
